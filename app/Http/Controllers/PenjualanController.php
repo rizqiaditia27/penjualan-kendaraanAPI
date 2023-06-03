@@ -1,28 +1,26 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\Kendaraan;
-use App\Services\KendaraanService;
 use Illuminate\Http\Request;
+use App\Services\PenjualanService;
 use Exception;
+use Illuminate\Http\JsonResponse;
 
-
-class KendaraanController extends Controller
+class PenjualanController extends Controller
 {
-    protected $kendaraanService;
+    protected $penjualanService;
 
-    public function __construct(KendaraanService $kendaraanService)
+    public function __construct(PenjualanService $penjualanService)
     {
-        $this->kendaraanService = $kendaraanService;
+        $this->penjualanService = $penjualanService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request):JsonResponse
     {
-        
         try{
-
-            $result = $this->kendaraanService->getKendaraan($request);
+            $result = $this->penjualanService->getPenjualan($request);
         }catch(Exception $e) {
             $result = [
                 'status' => 500,
@@ -33,27 +31,17 @@ class KendaraanController extends Controller
         return response()->json([$result],200);
     }
 
-    public function store(Request $request)
+    public function store(Request $request):JsonResponse
     {
-
         $data = $request->only([
-            'tahun',
-            'warna', 
-            'harga' ,
-            'tipe' ,
-            'mesin', 
-            'suspensi' ,
-            'transmisi', 
-            'kapasitas_penumpang',
-            'tipe_mobil',
-
+            'kendaraan_id',
+            'total_transaksi', 
+            'catatan' 
         ]);
-
-        
         $result = ['status'=> 201];
 
         try {
-            $result['data'] = $this->kendaraanService->addKendaraan($data);
+            $result['data'] = $this->penjualanService->addPenjualan($data);
 
         } catch(Exception $e) {
             $result = [
@@ -62,26 +50,23 @@ class KendaraanController extends Controller
             ];
         }
 
+        
         return response()->json([
             $result
         ],$result['status']);
     }
 
-    public function show($type)
+  
+    public function show($id)
     {
         
-    }
-
-
-    public function edit($id)
-    {
-        //
     }
 
     public function update(Request $request, $id)
     {
         //
     }
+
 
     public function destroy($id)
     {

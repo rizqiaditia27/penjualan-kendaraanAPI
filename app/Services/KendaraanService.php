@@ -61,14 +61,10 @@ class KendaraanService {
     public function getKendaraan(Request $request): array
     {
         //cek tipe kendaraan yang ingin ditampilkan
-        if($request->tipe=="Mobil"){
+        if($request->tipe){
             $result['jumlah'] = $this->kendaraanRepository->getCountByType($request->tipe);
             $result['data'] = $this->kendaraanRepository->getByType($request->tipe);
 
-        } else if ($request->tipe=="Motor") {
-            $result['jumlah'] = $this->kendaraanRepository->getCountByType($request->tipe);
-            $result['data'] = $this->kendaraanRepository->getByType($request->tipe);
-            
         } else {
             $result['jumlah'] = $this->kendaraanRepository->getCount();
             $result['data'] = $this->kendaraanRepository->getAll();
