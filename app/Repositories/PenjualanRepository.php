@@ -31,12 +31,19 @@ class PenjualanRepository {
         return $penjualan->fresh();
     }
 
+    public function update($data, $penjualan): Model
+    {
+        $penjualan->update($data);
+
+        return $penjualan->fresh();
+    }
+
     public function getAll(): Collection
     {
         return Penjualan::all();
     }
 
-    public function getById($id): Collection{
+    public function getById($id): Collection { 
         return Penjualan::where('kendaraan_id', $id)->get();
     }
 

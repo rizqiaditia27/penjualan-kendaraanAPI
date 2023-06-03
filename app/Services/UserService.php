@@ -48,9 +48,7 @@ class UserService {
 
         //if auth failed
         if(!$token = auth()->attempt($data)) {
-            return response()->json([
-                'message' => 'Email atau Password Anda salah'
-            ], 401);
+            throw new \Exception('Login gagal');
         }
 
         return $result = [

@@ -11,13 +11,12 @@ use Illuminate\Support\Facades\Route;
 
 //auth routes
 Route::post('login', LoginController::class);
-Route::post('register', RegisterController::class);
 
 
 Route::prefix('v1')->middleware('jwt.verify')->group(function () {
+    Route::post('register', RegisterController::class);
     Route::post('logout', LogoutController::class);
     //kendaraan routes
-    Route::get('kendaraan/motor',['KendaraanController::class','']);
     Route::apiResource('kendaraan', KendaraanController::class);
     Route::apiResource('penjualan', PenjualanController::class);
 });

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Services\UserService;
 use Exception;
+use Illuminate\Http\JsonResponse;
 
 
 class LoginController extends Controller
@@ -18,7 +19,7 @@ class LoginController extends Controller
         $this->userService = $userService;
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
 
         $data = $request->only([
@@ -39,8 +40,8 @@ class LoginController extends Controller
 
         //if auth success
         return response()->json([
-            $result,
-            $result['status']
-        ]);
+            $result
+            
+        ],$result['status']);
     }
 }

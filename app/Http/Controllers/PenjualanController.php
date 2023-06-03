@@ -3,10 +3,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Penjualan;
 use Illuminate\Http\Request;
 use App\Services\PenjualanService;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Jenssegers\Mongodb\Eloquent\Model;
+
 
 class PenjualanController extends Controller
 {
@@ -62,14 +65,40 @@ class PenjualanController extends Controller
         
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id):JsonResponse
     {
-        //
+        $data = $request->only([
+            'total_transaksi', 
+            'catatan' 
+        ]);
+
+        $result = ['status'=> 200];
+
+        try {
+            $result['data'] = $this->penjualanService->updatePenjualan($data,$id);
+
+        } catch(Exception $e) {
+            $result = [
+                'status' => 404,
+                'error' => $e->getMessage()
+            ];
+        }
+
+        return response()->json([
+            $result
+        ],$result['status']);
     }
 
 
-    public function destroy($id)
+    public function destroy($id):JsonResponse
     {
-        //
+        $penjualan = Penjualan::find($id);
+
+        if ($penjualan) {
+            $penjualan->delete();
+            return response()->json([],204);
+        } else {
+            return response()->json(['message' => 'Data tidak ditemukan'],404);
+        }
     }
 }

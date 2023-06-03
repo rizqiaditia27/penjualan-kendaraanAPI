@@ -6,6 +6,8 @@ use App\Models\Kendaraan;
 use App\Services\KendaraanService;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Http\JsonResponse;
+
 
 
 class KendaraanController extends Controller
@@ -17,7 +19,7 @@ class KendaraanController extends Controller
         $this->kendaraanService = $kendaraanService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         
         try{
@@ -33,7 +35,7 @@ class KendaraanController extends Controller
         return response()->json([$result],200);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
 
         $data = $request->only([
@@ -46,7 +48,6 @@ class KendaraanController extends Controller
             'transmisi', 
             'kapasitas_penumpang',
             'tipe_mobil',
-
         ]);
 
         
@@ -78,13 +79,47 @@ class KendaraanController extends Controller
         //
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): JsonResponse
     {
-        //
+        $data = $request->only([
+            'tahun',
+            'warna', 
+            'harga' ,
+            'tipe' ,
+            'mesin', 
+            'suspensi' ,
+            'transmisi', 
+            'kapasitas_penumpang',
+            'tipe_mobil',
+        ]);
+
+        $result = ['status'=> 200];
+
+        try {
+            $result['data'] = $this->kendaraanService->updateKendaraan($data,$id);
+
+        } catch(Exception $e) {
+            $result = [
+                'status' => 404,
+                'error' => $e->getMessage()
+            ];
+        }
+
+        return response()->json([
+            $result
+        ],$result['status']);
     }
 
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
-        //
+        $kendaraan = Kendaraan::find($id);
+
+        if ($kendaraan) {
+            $kendaraan->delete();
+            return response()->json([],204);
+        } else {
+            return response()->json(['message' => 'Data tidak ditemukan'],404);
+        }
+
     }
 }

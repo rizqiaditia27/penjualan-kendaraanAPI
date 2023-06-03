@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use Exception;
+use Illuminate\Http\JsonResponse;
+
 
 class RegisterController extends Controller
 {
@@ -17,7 +19,7 @@ class RegisterController extends Controller
     {
         $this->userService = $userService;
     }
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
 
         $data = $request->only([

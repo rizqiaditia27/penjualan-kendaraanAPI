@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Repositories\PenjualanRepository;
-use Carbon\Carbon;
+use App\Models\Penjualan;
+
 use Illuminate\Support\Facades\Validator;
 use Jenssegers\Mongodb\Eloquent\Model;
 use InvalidArgumentException;
@@ -23,19 +24,7 @@ class PenjualanService {
 
     public function addPenjualan($data): Model {
         
-        $validator = Validator::make($data,[
-            'kendaraan_id' => 'required|string',
-            'total_transaksi' => 'required|numeric',
-            'catatan' => 'required|string',
-        ]);
-
-        if($validator->fails()) {
-            throw new InvalidArgumentException($validator->errors()->first());
-        }
-
-        //data tambahan
-        $data['admin'] =  auth()->user()->nama;
-        $data['tanggal_transaksi'] = Carbon::now();
+        $data = $this->validatePenjualan($data);
 
         $result = $this->penjualanRepository->save($data);
 
@@ -58,16 +47,39 @@ class PenjualanService {
 
         return $result;
     }
+    
+    public function updatePenjualan($data, $id): Model {
 
-    public function getAllPenjualan(): array
-    {
-        $result['jumlah'] = $this->penjualanRepository->getCount();
-        $result['data'] = $this->penjualanRepository->getAll();
+        $penjualan = Penjualan::find($id);
+
+        if($penjualan)
+        {
+            $validatedData = $this->validatePenjualan($data);
+            $result = $this->penjualanRepository->update($validatedData,$penjualan);
+        } else {
+            throw new \Exception("Data tidak ditemukan");
+        }
 
         return $result;
-    }
-    
 
+    }
+
+    private function validatePenjualan($data): array
+    {
+        $validator = Validator::make($data,[
+            'total_transaksi' => 'required|numeric',
+            'catatan' => 'required|string',
+        ]);
+
+        if($validator->fails()) {
+            throw new InvalidArgumentException($validator->errors()->first());
+        }
+
+        //data tambahan
+        $data['admin'] =  auth()->user()->nama;
+
+        return $data;
+    }
 
 }
 

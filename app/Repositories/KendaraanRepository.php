@@ -7,6 +7,8 @@ use App\Models\Kendaraan;
 use Illuminate\Support\Facades\Hash;
 use Jenssegers\Mongodb\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+
 
 class KendaraanRepository {
 
@@ -31,7 +33,20 @@ class KendaraanRepository {
         return $kendaraan->fresh();
     }
 
-    public function getAll()
+    public function update($data,$kendaraan): Model
+    {
+
+        $kendaraan->tahun     = $data['tahun'];
+        $kendaraan->warna    = $data['warna'];
+        $kendaraan->harga    = $data['harga'];
+        $kendaraan->tipe    = $data['tipe'];
+        $kendaraan->spesifikasi    = $data['spesifikasi'];
+        $kendaraan->save();
+
+        return $kendaraan->fresh();
+    }
+
+    public function getAll(): Collection
     {
         return Kendaraan::all();
     }
@@ -40,11 +55,11 @@ class KendaraanRepository {
         return Kendaraan::where('tipe', $type)->get();
     }
 
-    public function getCount()
+    public function getCount(): int
     {
         return Kendaraan::count();
     }
-    public function getCountByType($type)
+    public function getCountByType($type): int
     {
         return Kendaraan::where('tipe', $type)->count();
     }
