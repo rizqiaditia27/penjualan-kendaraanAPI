@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Services\PenjualanService;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Jenssegers\Mongodb\Eloquent\Model;
 
 
 class PenjualanController extends Controller

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use Exception;
@@ -36,7 +34,6 @@ class RegisterController extends Controller
             
             if ($e->getCode() == 11000) {
                 $result['error'] = 'Email sudah terdaftar';
-                // ...
             } else {
                 $result['errors'] = $e->getMessage();
             }

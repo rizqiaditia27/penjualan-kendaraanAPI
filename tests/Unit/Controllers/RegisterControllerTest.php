@@ -35,7 +35,7 @@ class RegisterControllerTest extends TestCase
         parent::tearDown();
     }
 
-    public function testRegisterSuccess()
+    public function testRegister_WithValidCredentials_ShouldSuccess()
     {
         // Mock the UserService's addUser method
         $this->userService->shouldReceive('addUser')->once()->andReturn(new User());

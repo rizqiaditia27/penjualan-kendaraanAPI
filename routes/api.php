@@ -18,6 +18,7 @@ Route::prefix('v1')->middleware('jwt.verify')->group(function () {
     Route::post('logout', LogoutController::class);
     //kendaraan routes
     Route::apiResource('kendaraan', KendaraanController::class);
+    //penjualan routes
     Route::apiResource('penjualan', PenjualanController::class);
 });
 

@@ -5,7 +5,6 @@ namespace App\Repositories;
 
 use App\Models\Kendaraan;
 use Jenssegers\Mongodb\Eloquent\Model;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 
