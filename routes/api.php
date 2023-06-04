@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 
 //auth routes
-Route::post('login', LoginController::class);
+Route::post('/v1/login', LoginController::class);
 
 
 Route::prefix('v1')->middleware('jwt.verify')->group(function () {
