@@ -68,17 +68,6 @@ class KendaraanController extends Controller
         ],$result['status']);
     }
 
-    public function show($type)
-    {
-        
-    }
-
-
-    public function edit($id)
-    {
-        //
-    }
-
     public function update(Request $request, $id): JsonResponse
     {
         $data = $request->only([

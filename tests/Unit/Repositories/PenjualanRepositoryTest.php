@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class PenjualanRepositoryTest extends TestCase
 {
-    use DatabaseMigrations;
+    //use DatabaseMigrations;
 
     protected $penjualanRepository;
     protected $penjualan;

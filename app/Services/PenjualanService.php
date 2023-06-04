@@ -5,7 +5,6 @@ namespace App\Services;
 
 use App\Repositories\PenjualanRepository;
 use App\Models\Penjualan;
-
 use Illuminate\Support\Facades\Validator;
 use Jenssegers\Mongodb\Eloquent\Model;
 use InvalidArgumentException;
@@ -78,6 +77,8 @@ class PenjualanService {
 
         return $data;
     }
+
+    
 
 }
 

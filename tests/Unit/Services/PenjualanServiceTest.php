@@ -71,7 +71,6 @@ class PenjualanServiceTest extends TestCase
         ->with($data)
         ->andReturn(new Penjualan());
 
-        // Call the addUser method
         $result = $this->service->addPenjualan($data);
 
         // // Assert that the result is an instance of the expected model class
@@ -98,20 +97,6 @@ class PenjualanServiceTest extends TestCase
 
     public function testGetPenjualan_WithoutId_ShouldReturnAllData()
     {
-        Kendaraan::create([
-            'kendaraan_id' => '647b32564f3f8a8d660ca963',
-            'total_transaksi' => 10000000,
-            'catatan' => 'diskon 10%',
-            'admin' => 'tes user', 
-        ]);
-
-        Kendaraan::create([
-            'kendaraan_id' => '647b32564f3f8a8d660ca963',
-            'total_transaksi' => 15000000,
-            'catatan' => 'diskon 10%',
-            'admin' => 'tes user', 
-        ]);
-
         // Create a mock request object with no ID
         $request = Request::create('/penjualan', 'GET');
 
@@ -149,15 +134,6 @@ class PenjualanServiceTest extends TestCase
     
     public function testGetPenjualan_WithId_ShouldReturnSingleData()
     {
-
-        Kendaraan::create([
-            'kendaraan_id' => '123',
-            'total_transaksi' => 10000000,
-            'catatan' => 'diskon 10%',
-            'admin' => 'tes user', 
-        ]);
-
-
         // Create a mock request object with an ID
         $request = Request::create('/penjualan', 'GET', ['id' => '123']);
 
@@ -183,4 +159,6 @@ class PenjualanServiceTest extends TestCase
         $this->assertEquals($expectedData, $result['data']);
         $this->assertEquals($expectedJumlah, $result['jumlah']);
     }
+
+    
 }

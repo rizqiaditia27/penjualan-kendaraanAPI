@@ -63,42 +63,42 @@ class KendaraanService {
 
     private function validateKendaraan($data): array{
 
-    $validator = Validator::make($data, [
-        'tahun' => 'required|numeric',
-        'warna' => 'required|string',
-        'harga' => 'required|numeric',
-        'tipe' => 'required|string',
-        'mesin' => 'required',
-        'suspensi' => 'string',
-        'transmisi' => 'string',
-        'kapasitas_penumpang' => 'numeric',
-        'tipe_mobil' => 'string',
-    ]);
+        $validator = Validator::make($data, [
+            'tahun' => 'required|numeric',
+            'warna' => 'required|string',
+            'harga' => 'required|numeric',
+            'tipe' => 'required|string',
+            'mesin' => 'required',
+            'suspensi' => 'string',
+            'transmisi' => 'string',
+            'kapasitas_penumpang' => 'numeric',
+            'tipe_mobil' => 'string',
+        ]);
 
-    if ($validator->fails()) {
-        throw new InvalidArgumentException($validator->errors()->first());
+        if ($validator->fails()) {
+            throw new InvalidArgumentException($validator->errors()->first());
+        }
+
+        $spesifikasi = [];
+
+        if ($data['tipe'] == 'Motor') {
+            $spesifikasi = [
+                'mesin' => $data['mesin'],
+                'suspensi' => $data['suspensi'],
+                'transmisi' => $data['transmisi'],
+            ];
+        } else if ($data['tipe'] == 'Mobil') {
+            $spesifikasi = [
+                'mesin' => $data['mesin'],
+                'kapasitas_penumpang' => $data['kapasitas_penumpang'],
+                'tipe_mobil' => $data['tipe_mobil'],
+            ];
+        }
+
+        $data['spesifikasi'] = $spesifikasi;
+
+        return $data;
     }
-
-    $spesifikasi = [];
-
-    if ($data['tipe'] == 'Motor') {
-        $spesifikasi = [
-            'mesin' => $data['mesin'],
-            'suspensi' => $data['suspensi'],
-            'transmisi' => $data['transmisi'],
-        ];
-    } else if ($data['tipe'] == 'Mobil') {
-        $spesifikasi = [
-            'mesin' => $data['mesin'],
-            'kapasitas_penumpang' => $data['kapasitas_penumpang'],
-            'tipe_mobil' => $data['tipe_mobil'],
-        ];
-    }
-
-    $data['spesifikasi'] = $spesifikasi;
-
-    return $data;
-}
 
 }
 
