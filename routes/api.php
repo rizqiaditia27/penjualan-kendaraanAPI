@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', LoginController::class);
 
 
+Route::post('register', RegisterController::class);
 Route::prefix('v1')->middleware('jwt.verify')->group(function () {
-    Route::post('register', RegisterController::class);
     Route::post('logout', LogoutController::class);
     //kendaraan routes
     Route::apiResource('kendaraan', KendaraanController::class);

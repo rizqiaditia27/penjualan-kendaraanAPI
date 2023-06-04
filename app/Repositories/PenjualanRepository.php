@@ -47,15 +47,6 @@ class PenjualanRepository {
         return Penjualan::where('kendaraan_id', $id)->get();
     }
 
-    public function getCount(): int
-    {
-        return Penjualan::count();
-    }
-    public function getCountById($id): int
-    {
-        return Penjualan::where('kendaraan_id', $id)->count();
-    }
-
 }
 
 ?>

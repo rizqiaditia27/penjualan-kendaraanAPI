@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 use App\Services\UserService;
 use Exception;
 use Illuminate\Http\JsonResponse;
-
+use Illuminate\Validation\ValidationException;
+use MongoDB\Driver\Exception\BulkWriteException;
 
 class RegisterController extends Controller
 {
@@ -22,23 +23,26 @@ class RegisterController extends Controller
     public function __invoke(Request $request): JsonResponse
     {
 
-        $data = $request->only([
-            'nama',
-            'email',
-            'password'
-        ]);
-
         $result = ['status'=> 200];
 
         try {
-            $result['data'] = $this->userService->addUser($data);
+            $result['data'] = $this->userService->addUser($request);
 
-        } catch(Exception $e) {
+        } catch(ValidationException $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'error' => $e->errors()
             ];
-        }
+        }catch (Exception $e) {
+            
+            if ($e->getCode() == 11000) {
+                $result['error'] = 'Email sudah terdaftar';
+                // ...
+            } else {
+                $result['errors'] = $e->getMessage();
+            }
+
+        } 
 
         return response()->json([
             $result

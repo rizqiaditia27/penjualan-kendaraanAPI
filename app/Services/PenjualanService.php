@@ -35,15 +35,12 @@ class PenjualanService {
     {
         //cek tipe Penjualan yang ingin ditampilkan
         if($request->id){
-
-            $result['jumlah'] = $this->penjualanRepository->getCountById($request->id);
             $result['data'] = $this->penjualanRepository->getById($request->id);
-
         } else {
-            $result['jumlah'] = $this->penjualanRepository->getCount();
             $result['data'] = $this->penjualanRepository->getAll();
         }
         
+        $result['jumlah'] = count($result['data']);
 
         return $result;
     }
@@ -69,6 +66,7 @@ class PenjualanService {
         $validator = Validator::make($data,[
             'total_transaksi' => 'required|numeric',
             'catatan' => 'required|string',
+            
         ]);
 
         if($validator->fails()) {

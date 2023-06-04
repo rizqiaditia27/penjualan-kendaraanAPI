@@ -22,14 +22,9 @@ class LoginController extends Controller
     public function __invoke(Request $request): JsonResponse
     {
 
-        $data = $request->only([
-            'email',
-            'password'
-        ]);
-
         $result = ['status'=> 200];
         try {
-            $result['data'] = $this->userService->login($data);
+            $result['data'] = $this->userService->login($request);
 
         } catch(Exception $e) {
             $result = [
